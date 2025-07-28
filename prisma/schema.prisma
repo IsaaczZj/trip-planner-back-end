@@ -33,3 +33,4 @@ model Participant {
 
   @@map("participants")
 }
+

@@ -6,6 +6,7 @@ import {
 } from "fastify-type-provider-zod";
 import { confirmTrip } from "./routes/confirm-trip";
 import cors from "@fastify/cors";
+import { confirmParticipant } from "./routes/confirm-participant";
 const app = fastify();
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
@@ -16,7 +17,7 @@ app.register(cors, {
 
 app.register(createTrip);
 app.register(confirmTrip);
-
+app.register(confirmParticipant)
 app.listen({ port: 3333 }).then(() => {
   console.log("Server running");
 });
