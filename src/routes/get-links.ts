@@ -3,6 +3,7 @@ import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
 import { prisma } from "../lib/prisma";
 import { dayjs } from "../lib/dayjs";
+import { ClientError } from "../erros/client-error";
 
 export async function getLinks(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().get(
@@ -27,7 +28,7 @@ export async function getLinks(app: FastifyInstance) {
       });
       if (!trip) {
         reply.status(404);
-        throw new Error("Viajem não encontrada");
+        throw new ClientError("Viajem não encontrada");
       }
 
       

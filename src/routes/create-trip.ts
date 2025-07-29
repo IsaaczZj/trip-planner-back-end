@@ -6,6 +6,8 @@ import { dayjs } from "../lib/dayjs";
 
 import { getMaillient } from "../lib/mail";
 import nodemailer from "nodemailer";
+import { ClientError } from "../erros/client-error";
+import { env } from "../env";
 
 export async function createTrip(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
@@ -35,10 +37,10 @@ export async function createTrip(app: FastifyInstance) {
       } = request.body;
 
       if (dayjs(starts_at).isBefore(new Date())) {
-        throw new Error("Data de início não pode ser antes da data atual!");
+        throw new ClientError("Data de início não pode ser antes da data atual!");
       }
       if (dayjs(ends_at).isBefore(starts_at)) {
-        throw new Error("Data para finalizar a viajem inválida");
+        throw new ClientError("Data para finalizar a viajem inválida");
       }
 
       const newTrip = await prisma.trip.create({
@@ -69,7 +71,7 @@ export async function createTrip(app: FastifyInstance) {
       const formattedStartDate = dayjs(starts_at).format("LL");
       const formattedEndDate = dayjs(ends_at).format("LL");
 
-      const confirmationLink = `http://localhost:3333/trips/${newTrip.id}/confirm`;
+      const confirmationLink = `${env.API_BASE_URL}/trips/${newTrip.id}/confirm`;
 
       const mail = await getMaillient();
       const message = await mail.sendMail({

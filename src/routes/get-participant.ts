@@ -3,6 +3,7 @@ import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
 import { prisma } from "../lib/prisma";
 import { dayjs } from "../lib/dayjs";
+import { ClientError } from "../erros/client-error";
 
 export async function getParticipant(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().get(
@@ -30,7 +31,7 @@ export async function getParticipant(app: FastifyInstance) {
       });
       if (!participant) {
         reply.status(404);
-        throw new Error("Participante não encontrado(a)");
+        throw new ClientError("Participante não encontrado(a)");
       }
 
       reply.status(200).send({ participant });

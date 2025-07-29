@@ -16,6 +16,9 @@ import { createInvite } from "./routes/create-invite";
 import { upadateTrip } from "./routes/update-trip";
 import { getTripsDetails } from "./routes/get-trip-details";
 import { getParticipant } from "./routes/get-participant";
+import { errorHandler } from "./error-handler";
+import { env } from "./env";
+import { getAllTrips } from "./routes/get-all-trips";
 const app = fastify();
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
@@ -23,6 +26,8 @@ app.setSerializerCompiler(serializerCompiler);
 app.register(cors, {
   origin: "http://localhost:5173",
 });
+
+app.setErrorHandler(errorHandler)
 
 app.register(createTrip);
 app.register(confirmTrip);
@@ -36,6 +41,7 @@ app.register(createInvite);
 app.register(upadateTrip);
 app.register(getTripsDetails);
 app.register(getParticipant);
-app.listen({ port: 3333 }).then(() => {
+app.register(getAllTrips);
+app.listen({ port: env.PORT }).then(() => {
   console.log("Server running");
 });

@@ -3,6 +3,7 @@ import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
 import { prisma } from "../lib/prisma";
 import { dayjs } from "../lib/dayjs";
+import { ClientError } from "../erros/client-error";
 
 
 export async function upadateTrip(app: FastifyInstance) {
@@ -31,14 +32,14 @@ export async function upadateTrip(app: FastifyInstance) {
         },
       });
       if (!trip) {
-        throw new Error("Viajem não encontrada");
+        throw new ClientError("Viajem não encontrada");
       }
 
       if (dayjs(starts_at).isBefore(new Date())) {
-        throw new Error("Data de início não pode ser antes da data atual!");
+        throw new ClientError("Data de início não pode ser antes da data atual!");
       }
       if (dayjs(ends_at).isBefore(starts_at)) {
-        throw new Error("Data para finalizar a viajem inválida");
+        throw new ClientError("Data para finalizar a viajem inválida");
       }
 
       const updatedTrip = await prisma.trip.update({
