@@ -7,7 +7,7 @@ import { ClientError } from "../erros/client-error";
 import { env } from "../env";
 
 export async function confirmParticipant(app: FastifyInstance) {
-  app.withTypeProvider<ZodTypeProvider>().patch(
+  app.withTypeProvider<ZodTypeProvider>().get(
     "/participants/:participantId/confirm",
     {
       schema: {
