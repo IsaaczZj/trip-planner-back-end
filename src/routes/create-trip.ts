@@ -37,7 +37,9 @@ export async function createTrip(app: FastifyInstance) {
       } = request.body;
 
       if (dayjs(starts_at).isBefore(new Date())) {
-        throw new ClientError("Data de início não pode ser antes da data atual!");
+        throw new ClientError(
+          "Data de início não pode ser antes da data atual!"
+        );
       }
       if (dayjs(ends_at).isBefore(starts_at)) {
         throw new ClientError("Data para finalizar a viajem inválida");
@@ -54,7 +56,7 @@ export async function createTrip(app: FastifyInstance) {
                 {
                   name: owner_name,
                   email: owner_email,
-                  is_0wner: true,
+                  is_owner: true,
                   isConfirmed: true,
                 },
                 ...emails_to_invite.map((email) => {

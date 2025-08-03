@@ -42,6 +42,8 @@ export async function confirmParticipant(app: FastifyInstance) {
           isConfirmed: true,
         },
       });
+      console.log();
+      
 
       return reply.redirect(`${env.WEB_BASE_URL}/trips/${participant.trip_id}`);
     }

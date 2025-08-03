@@ -19,7 +19,7 @@ model Trip {
   created_at   DateTime      @default(now())
   participants Participant[]
   activities   Activity[]
-  links         Link[]
+  links        Link[]
 
   @@map("trips")
 }
@@ -29,7 +29,7 @@ model Participant {
   name        String?
   email       String
   isConfirmed Boolean @default(false)
-  is_0wner    Boolean @default(false)
+  is_owner    Boolean @default(false)
   trip        Trip    @relation(fields: [trip_id], references: [id])
   trip_id     String
 

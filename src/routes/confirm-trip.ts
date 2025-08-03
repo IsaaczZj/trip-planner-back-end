@@ -27,7 +27,7 @@ export async function confirmTrip(app: FastifyInstance) {
         include: {
           participants: {
             where: {
-              is_0wner: false,
+              is_owner: false,
             },
           },
         },

@@ -29,6 +29,7 @@ export async function getParticipants(app: FastifyInstance) {
               name: true,
               email: true,
               isConfirmed: true,
+              is_owner: true,
             },
           },
         },
