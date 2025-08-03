@@ -19,15 +19,17 @@ import { getParticipant } from "./routes/get-participant";
 import { errorHandler } from "./error-handler";
 import { env } from "./env";
 import { getAllTrips } from "./routes/get-all-trips";
+import { removeParticipant } from "./routes/remove-participant";
 const app = fastify();
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
 
 app.register(cors, {
   origin: "http://localhost:5173",
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"],
 });
 
-app.setErrorHandler(errorHandler)
+app.setErrorHandler(errorHandler);
 
 app.register(createTrip);
 app.register(confirmTrip);
@@ -42,6 +44,8 @@ app.register(upadateTrip);
 app.register(getTripsDetails);
 app.register(getParticipant);
 app.register(getAllTrips);
+app.register(removeParticipant);
+
 app.listen({ port: env.PORT }).then(() => {
   console.log("Server running");
 });

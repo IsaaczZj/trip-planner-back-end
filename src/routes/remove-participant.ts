@@ -6,7 +6,7 @@ import { dayjs } from "../lib/dayjs";
 import { ClientError } from "../erros/client-error";
 
 export async function removeParticipant(app: FastifyInstance) {
-  app.withTypeProvider<ZodTypeProvider>().put(
+  app.withTypeProvider<ZodTypeProvider>().delete(
     "/trips/:tripId",
     {
       schema: {
@@ -14,12 +14,12 @@ export async function removeParticipant(app: FastifyInstance) {
           tripId: z.uuid(),
         }),
         body: z.object({
-          participanId: z.uuid(),
+          participantId: z.uuid(),
         }),
       },
     },
     async (request, reply) => {
-      const { participanId } = request.body;
+      const { participantId } = request.body;
       const { tripId } = request.params;
       const trip = await prisma.trip.findUnique({
         where: {
@@ -32,7 +32,7 @@ export async function removeParticipant(app: FastifyInstance) {
 
       const participant = await prisma.participant.findFirst({
         where: {
-          id: participanId,
+          id: participantId,
           trip_id: tripId,
         },
       });
@@ -44,7 +44,7 @@ export async function removeParticipant(app: FastifyInstance) {
       }
       await prisma.participant.delete({
         where: {
-          id: participanId,
+          id: participantId,
         },
       });
 
